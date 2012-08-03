@@ -11,5 +11,4 @@ Note:  Requires a patch for Entity JS module at this time.
 
 Demo Site:  http://dries.prometdev.com
 
-User: demo
-Pass: demo
+User: demo | Password: demo
