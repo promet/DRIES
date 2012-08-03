@@ -11,6 +11,7 @@ Concepts, Wireframing, Documentation was done by Vy Duong & Michelle Rickman.
 
 ----
 Note:  Requires a patch for Entity JS module at this time.
+
 ----
 
 Demo Site:  http://dries.prometdev.com
