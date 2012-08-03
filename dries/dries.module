@@ -1,0 +1,135 @@
+<?php
+
+/**
+ * Implements hook_menu().
+ */
+function dries_menu() {
+  $items['dries/validate-fields'] = array(
+    'page callback' => 'dries_validate_fields_callback',
+    'page arguments' => array(2,3),
+    'access callback' => TRUE,
+    'type' => MENU_CALLBACK,
+  );
+  return $items;
+}
+
+/**
+ * Implements hook_preprocess_node.
+ * @todo: support all entity types
+ */
+function dries_preprocess_node(&$var) {
+  if (entity_access('update', $var['elements']['#entity_type'], $var['elements']['#node']) && $var['view_mode'] == 'full') {
+    dries_include_files();
+    drupal_add_css(drupal_get_path('module', 'dries') . '/dries.css', 'file');
+    drupal_add_js(drupal_get_path('module', 'dries') .'/dries.js', 'file');
+    $var['content']['#prefix']  = '<input type="hidden" id="dries-nid" value="' . $var['nid'] . '" />';
+    $var['content']['#prefix'] .= '<input type="hidden" id="dries-bundle" value="' . $var['type'] . '" />';
+  }
+}
+
+function dries_preprocess_field(&$var) {
+  $field_name = 'dries__' . $var['element']['#field_name'];
+  $var['classes_array'][] = $field_name;
+  $plaintext = array("text", "number_integer", "number_float", "number_decimal");
+  if(in_array($var['element']['#field_type'], $plaintext)) {
+    $var['classes_array'][] = 'plaintext';
+  }
+}
+
+/**
+ * Helper function to include Aloha editor and css files.
+ */
+function dries_include_files() {
+  // Aloha editor js element.
+  $plugins = variable_get('dries_aloha_plugins', array('common/ui', 'common/format', 'common/list', 'common/link', 'common/highlighteditables'));
+  $aloha_element = array(
+    '#tag' => 'script',
+    '#attributes' => array(
+      'type' => 'text/javascript',
+      'data-aloha-plugins' => implode(', ', $plugins),
+      'src' => 'http://cdn.aloha-editor.org/latest/lib/aloha.js',
+    ),
+    '#value' => '',
+    '#weight' => 10,
+  );
+  drupal_add_html_head($aloha_element, 'dries-aloha');
+
+  // Requirejs element.
+  $requirejs_element = array(
+    '#tag' => 'script',
+    '#attributes' => array(
+      'type' => 'text/javascript',
+      'src' => 'http://cdn.aloha-editor.org/latest/lib/require.js',
+    ),
+    '#value' => '',
+    '#weight' => 9,
+  );
+  drupal_add_html_head($requirejs_element, 'dries-requirejs');
+
+  drupal_add_css('http://cdn.aloha-editor.org/latest/css/aloha.css', 'external');
+}
+
+/**
+ * Callback to validate fields entered in aloha.
+ */
+function dries_validate_fields_callback($nid, $bundle) {
+  $values = $_POST['values'];
+
+  // Exclude title because it's not a field.
+  unset($values['title']);
+  $fields = array_keys($values);
+  $errors = array();
+  foreach ($fields as $field_name) {
+    $field = field_info_field($field_name);
+    $instance = field_info_instance('node', $field_name, $bundle);
+    foreach ($values[$field_name][LANGUAGE_NONE] as $value) {
+      dries_validate_fields($field, $instance, $value, $errors);
+    }
+  }
+
+  if (count($errors) > 0) {
+    $errors['pass'] = FALSE;
+    return drupal_json_output($errors);
+  }
+
+  return drupal_json_output(array('pass' => TRUE));
+}
+
+/**
+ * Helper function to validate fields entered.
+ *
+ * Validation only includes field of types 'text' and 'number'.
+ */
+function dries_validate_fields($field, $instance, $value, &$errors) {
+  // The actual value.
+  $value = $value['value'];
+
+  switch ($field['type']) {
+    case 'text':
+      // Error when value is beyond maxlength.
+      if (strlen($value) > $field['settings']['max_length']) {
+        $errors[$instance['label']] = t('Value cannot be longer than !max_length characters.', array('!max_length' => $field['settings']['max_length']));
+      }
+      break;
+    // number_field_widget_validate().
+    case 'number_integer':
+      $regexp = '@([^-0-9])|(.-)@';
+      if ($value != preg_replace($regexp, '', $value)) {
+        $errors[$instance['label']] = t('Only numbers are allowed.');
+      }
+      break;
+    case 'number_float':
+    case 'number_decimal':
+      $regexp = '@([^-0-9\\' . $field['settings']['decimal_separator'] . '])|(.-)@';
+      if ($value != preg_replace($regexp, '', $value)) {
+        $errors[$instance['label']] = t('Only numbers and the decimal separator (@separator) allowed.', array('@separator' => $field['settings']['decimal_separator']));
+      }
+      // Verify that only one decimal separator exists in the field.
+      if (substr_count($value, $field['settings']['decimal_separator']) > 1) {
+        $errors[$instance['label']] = t('There should only be one decimal separator (@separator).', array('@separator' => $field['settings']['decimal_separator']));
+      }
+      break;
+    default:
+      break;
+  }
+}

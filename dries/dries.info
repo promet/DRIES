@@ -1,0 +1,5 @@
+name = Drupal Inline Editing System
+description = DRIES allows content editors to edit nodes using Aloha inline javascript editors.
+core = 7.x
+dependencies[] = entity_js
+dependencies[] = jquery_update

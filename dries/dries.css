@@ -1,0 +1,60 @@
+#dries-dim {
+  background-color: #999999;
+  display: none;
+  filter: alpha(opacity=80); /* For IE8 and earlier */
+  height: 100%;
+  left: 0;
+  opacity: 0.8;
+  position:absolute;
+  width: 100%;
+  z-index: 1000;
+}
+
+#dries-alert {
+  display: none;
+  background-color: #ffffff;
+  border-radius: 6px;
+  box-shadow: 2px 2px 4px 0px #727070;
+  color: #262626;
+  font-family: sans-serif;
+  font-size: 20px;
+  font-weight: bold;
+  left: 15%;
+  top: 15%;
+  position: absolute;
+  padding: 20px;
+  z-index: 1002;
+  -webkit-box-shadow: 2px 2px 4px 0px #727070;
+  -webkit-border-radius: 6px;
+  -webkit-appearance: none;
+}
+
+.dries-btn {
+  display: none;
+  background-color: #ffffff;
+  border: none;
+  border-radius: 0px 0px 3px 3px;
+  box-sizing: content-box;
+  box-shadow: 2px 2px 4px 0px #727070;
+  color: #262626;
+  font-family: sans-serif;
+  font-size: 18px;
+  height: 40px;
+  left: 48%;
+  position: absolute;
+  top: -2px;
+  width: 90px;
+  z-index: 1001;
+  -webkit-box-shadow: 2px 2px 4px 0px #727070;
+  -webkit-border-radius: 0px 0px 3px 3px;
+  -webkit-appearance: none;
+}
+
+.dries-btn:hover {
+  background-color: #ececec;
+}
+
+.field-item, #page-title {
+  position: relative;
+  z-index: 1001;
+}
