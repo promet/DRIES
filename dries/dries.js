@@ -51,13 +51,13 @@
         $.each($('.field.plaintext'), function(index, element) {
           $(this).children('.field-items').children('.field-item').addClass('plaintext');
         });
+        var dries_plaintext = '*[class*=dries__]' + ' .plaintext:not(.field)';
+        var dries_field_item = '*[class*=dries__]' + ' .field-item';
         $('#dries-edit', context)
           .slideDown()
           .click(function() {
             $(this).slideUp();
             $('#dries-save').slideDown();
-            var dries_plaintext = '*[class*=dries__]' + ' .plaintext:not(.field)';
-            var dries_field_item = '*[class*=dries__]' + ' .field-item';
             Aloha.jQuery(dries_plaintext).aloha();
             Aloha.jQuery(dries_field_item).aloha();
             $(dries_plaintext).css('background-color','white');
@@ -116,10 +116,12 @@
                   $('#dries-save').slideUp();
                   $('#dries-dim').hide();
                   $('#dries-edit').slideDown();
-                  Aloha.jQuery('.plaintext').mahalo();
-                  Aloha.jQuery('.field-item').mahalo();
-                  $('.plaintext').removeClass('aloha-editable-highlight');
-                  $('.field-item').removeClass('aloha-editable-highlight');
+                  $(dries_plaintext).removeClass('aloha-editable-highlight');
+                  $(dries_field_item).removeClass('aloha-editable-highlight');
+                  Aloha.jQuery(dries_plaintext).mahalo();
+                  Aloha.jQuery(dries_field_item).mahalo();
+                  $(dries_plaintext).css('background-color','inherit');
+                  $(dries_field_item).css('background-color','inherit');
                 });
                 dries_alert('Saved!');
               }
