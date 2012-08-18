@@ -46,21 +46,14 @@
     attach: function(context, settings) {
       Aloha.ready(function() {
         $('body', context).prepend(Drupal.theme('driesElements'));
-        $('#page-title', context).addClass('plaintext');
-        //append .plaintext to actual field-items
-        $.each($('.field.plaintext'), function(index, element) {
-          $(this).children('.field-items').children('.field-item').addClass('plaintext');
-        });
-        var dries_plaintext = '*[class*=dries__]' + ' .plaintext:not(.field)';
+        $('#page-title').addClass('field-item').wrap('<div class="field dries__title" />').wrap('<div class="field-items" />');
         var dries_field_item = '*[class*=dries__]' + ' .field-item';
         $('#dries-edit', context)
           .slideDown()
           .click(function() {
             $(this).slideUp();
             $('#dries-save').slideDown();
-            Aloha.jQuery(dries_plaintext).aloha();
             Aloha.jQuery(dries_field_item).aloha();
-            $(dries_plaintext).css('background-color','white');
             $(dries_field_item).css('background-color','white');
             $('#dries-dim').show();
           });
@@ -70,7 +63,6 @@
             var nid = $('#dries-nid', context).val();
             var bundle = $('#dries-bundle', context).val();
             var values = {}
-            values["title"] = trim11($('#page-title', context).html());
 
             // Match all dries-enabled fields.
             $('*[class*=dries__]', context).each(function(i, elem) {
@@ -85,14 +77,19 @@
               // Do the check here instead of inside the loop
               // to keep the correct context in tact.
               if (typeof key != 'undefined') {
-                values[key] = {};
-                values[key]['und'] = {}
-                $('.field-item', this).each(function(k, elem) {
-                  var field_value = $(this).html();
-                  values[key]['und'][k] = {}
-                  values[key]['und'][k]['format'] = 'full_html';
-                  values[key]['und'][k]['value'] = field_value;
-                });
+                if(key != 'title') {
+                  values[key] = {};
+                  values[key]['und'] = {}
+                  $('.field-item', this).each(function(k, elem) {
+                    var field_value = $(this).html();
+                    values[key]['und'][k] = {}
+                    values[key]['und'][k]['format'] = 'full_html';
+                    values[key]['und'][k]['value'] = field_value;
+                  });
+                }
+                else {
+                  values[key] = trim11($('#page-title', context).html());
+                }
               }
             });
 
@@ -116,11 +113,8 @@
                   $('#dries-save').slideUp();
                   $('#dries-dim').hide();
                   $('#dries-edit').slideDown();
-                  $(dries_plaintext).removeClass('aloha-editable-highlight');
                   $(dries_field_item).removeClass('aloha-editable-highlight');
-                  Aloha.jQuery(dries_plaintext).mahalo();
                   Aloha.jQuery(dries_field_item).mahalo();
-                  $(dries_plaintext).css('background-color','inherit');
                   $(dries_field_item).css('background-color','inherit');
                 });
                 dries_alert('Saved!');
