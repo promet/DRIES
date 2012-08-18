@@ -28,7 +28,6 @@ function dries_preprocess_node(&$var) {
 }
 
 function dries_preprocess_field(&$var) {
-  kpr($var);
   if ($var['element']['#view_mode'] == 'full') {
     $field_name = 'dries__' . $var['element']['#field_name'];
     $var['classes_array'][] = $field_name;
