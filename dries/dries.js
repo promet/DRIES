@@ -56,10 +56,12 @@
           .click(function() {
             $(this).slideUp();
             $('#dries-save').slideDown();
-            Aloha.jQuery('.plaintext:not(.field)').aloha();
-            Aloha.jQuery('.field-item').aloha();
-            $('.plaintext').css('background-color','white');
-            $('.field-item').css('background-color','white');
+            var dries_plaintext = '*[class*=dries__]' + ' .plaintext:not(.field)';
+            var dries_field_item = '*[class*=dries__]' + ' .field-item';
+            Aloha.jQuery(dries_plaintext).aloha();
+            Aloha.jQuery(dries_field_item).aloha();
+            $(dries_plaintext).css('background-color','white');
+            $(dries_field_item).css('background-color','white');
             $('#dries-dim').show();
           });
 

@@ -28,11 +28,14 @@ function dries_preprocess_node(&$var) {
 }
 
 function dries_preprocess_field(&$var) {
-  $field_name = 'dries__' . $var['element']['#field_name'];
-  $var['classes_array'][] = $field_name;
-  $plaintext = array("text", "number_integer", "number_float", "number_decimal");
-  if(in_array($var['element']['#field_type'], $plaintext)) {
-    $var['classes_array'][] = 'plaintext';
+  kpr($var);
+  if ($var['element']['#view_mode'] == 'full') {
+    $field_name = 'dries__' . $var['element']['#field_name'];
+    $var['classes_array'][] = $field_name;
+    $plaintext = array("text", "number_integer", "number_float", "number_decimal");
+    if(in_array($var['element']['#field_type'], $plaintext)) {
+      $var['classes_array'][] = 'plaintext';
+    }
   }
 }
 
