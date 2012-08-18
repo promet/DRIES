@@ -10,7 +10,7 @@ This was developed during a hackathon on 8.2.12 at Promet Source.
 QA/UA/UX & Documentation was done by Vy Duong & Michelle Ryckman. 
 
 ----
-Note:  Requires a patch for Entity JS module at this time.
+Requires Entity JS module:  http://drupal.org/project/entity_js
 
 ----
 
