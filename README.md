@@ -12,7 +12,3 @@ QA/UA/UX & Documentation was done by Vy Duong & Michelle Ryckman.
 ----
 Requires Entity JS module:  http://drupal.org/project/entity_js
 
-----
-
-Demo Site:  http://dries.prometdev.com
-User: demo | Password: demo
