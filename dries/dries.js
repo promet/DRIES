@@ -49,13 +49,25 @@
         $('#page-title').addClass('field-item').wrap('<div class="field dries__title" />').wrap('<div class="field-items" />');
         var dries_field_item = '*[class*=dries__]' + ' .field-item';
         $('#dries-edit', context)
-          .slideDown()
+          .fadeIn()
           .click(function() {
-            $(this).slideUp();
-            $('#dries-save').slideDown();
+            $(this).hide();
+            $('#dries-save').show();
             Aloha.jQuery(dries_field_item).aloha();
             $(dries_field_item).css('background-color','white');
             $('#dries-dim').show();
+            $('#dries-cancel').show();
+          });
+
+         $('#dries-cancel', context)
+          .click(function() {
+            $(this).hide();
+            $('#dries-save').hide();
+            $('#dries-dim').hide();
+            $('#dries-edit').show();
+            $(dries_field_item).removeClass('aloha-editable-highlight');
+            Aloha.jQuery(dries_field_item).mahalo();
+            $(dries_field_item).css('background-color','inherit');    
           });
 
         $('#dries-save', context)
@@ -110,9 +122,10 @@
               else {
                 // ---
                 entity_update('node', nid, values).done(function(data) {
-                  $('#dries-save').slideUp();
+                  $('#dries-save').hide();
                   $('#dries-dim').hide();
-                  $('#dries-edit').slideDown();
+                  $('#dries-cancel').hide();
+                  $('#dries-edit').show();
                   $(dries_field_item).removeClass('aloha-editable-highlight');
                   Aloha.jQuery(dries_field_item).mahalo();
                   $(dries_field_item).css('background-color','inherit');
@@ -129,7 +142,7 @@
    * Theme function that returns an overlay and buttons.
    */
   Drupal.theme.prototype.driesElements = function() {
-    return '<div id="dries-dim"></div><input type="submit" id="dries-edit" class="dries-btn" value="' + Drupal.t('Edit') + '" /><input type="submit" class="dries-btn" id="dries-save" value="' + Drupal.t('Save') + '" />';
+    return '<div id="dries-dim"></div><input type="submit" id="dries-edit" class="dries-btn" value="' + Drupal.t('Edit') + '" /><input type="submit" class="dries-btn" id="dries-save" value="' + Drupal.t('Save') + '" /><input type="submit" class="dries-x" id="dries-cancel" value="' + Drupal.t('X') + '" />';
   }
 })(jQuery);
 
