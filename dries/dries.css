@@ -20,7 +20,7 @@
   font-size: 20px;
   font-weight: bold;
   left: 15%;
-  top: 15%;
+  top: 10%;
   position: absolute;
   padding: 20px;
   z-index: 1002;
@@ -29,12 +29,16 @@
   -webkit-appearance: none;
 }
 
+#dries-btn-wrap {
+  position: absolute;
+  left: 15%;
+  top: 10%;
+  z-index: 998;
+  width: 120px;
+}
+
 .dries-btn {
   display: none;
-  position: absolute;
-  top: 70px;
-  left: 48%;
-  z-index: 998;
   -moz-box-shadow:inset 0px 1px 0px 0px #bee2f9;
   -webkit-box-shadow:inset 0px 1px 0px 0px #bee2f9;
   box-shadow:inset 0px 1px 0px 0px #bee2f9;
@@ -68,12 +72,9 @@
 }
 
 .dries-x {
-  width: 30px;
+  float: right;
+  width: 29px;
   display: none;
-  position: absolute;
-  top: 40px;
-  left: 50%;
-  z-index: 998;
   -moz-box-shadow:inset 0px 0px 4px 0px #fab3ad;
   -webkit-box-shadow:inset 0px 0px 4px 0px #fab3ad;
   box-shadow:inset 0px 0px 4px 0px #fab3ad;

@@ -142,7 +142,7 @@
    * Theme function that returns an overlay and buttons.
    */
   Drupal.theme.prototype.driesElements = function() {
-    return '<div id="dries-dim"></div><input type="submit" id="dries-edit" class="dries-btn" value="' + Drupal.t('Edit') + '" /><input type="submit" class="dries-btn" id="dries-save" value="' + Drupal.t('Save') + '" /><input type="submit" class="dries-x" id="dries-cancel" value="' + Drupal.t('X') + '" />';
+    return '<div id="dries-dim"></div><div id="dries-btn-wrap"><input type="submit" id="dries-edit" class="dries-btn" value="' + Drupal.t('Edit') + '" /><input type="submit" class="dries-btn" id="dries-save" value="' + Drupal.t('Save') + '" /><input type="submit" class="dries-x" id="dries-cancel" value="' + Drupal.t('X') + '" /></div>';
   }
 })(jQuery);
 
