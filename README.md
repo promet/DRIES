@@ -1,7 +1,5 @@
-DRIES
-=====
-
 Drupal Inline Editing System
+============================
 
 DRIES module is a standalone inline editing system for updating nodes in Drupal 7 using Aloha Editor.
 
